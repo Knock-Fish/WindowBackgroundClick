@@ -38,7 +38,7 @@ class GUI:
         self.init_window_name.title(window_title)  # 定义窗口标题
         # 窗口大小和位置参数
         window_width, window_height = int(size[0] * self.scaling_width), int(size[1] * self.scaling_height)
-        print(int(size[0] * self.scaling_width))
+        # print(int(size[0] * self.scaling_width))
         # 定义窗口大小和窗口弹出时的默认展示位置
         self.init_window_name.geometry(
             "{}x{}+{}+{}".format(

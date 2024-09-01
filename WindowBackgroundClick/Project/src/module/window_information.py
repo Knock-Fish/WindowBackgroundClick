@@ -1,3 +1,5 @@
+import win32ui
+
 from Project.gui import GUI
 from Project.src.globals import Store
 import win32api
@@ -164,30 +166,46 @@ def window_information_module():
     )  # 放置画布
 
 
-# 替换图片
-def picture(pbin):
+def get_exe_icon(exe_path):
     try:
-        # 获取窗口所在的文件夹
-        icon_path = os.path.split(pbin)[0]
-        # 使用os模块获取文件夹中所有文件的路径
-        listdir = os.listdir(icon_path)
-        # 找出后缀为 .ico 的文件
-        target = [item for item in listdir if '.ico' in item]
-        # 拼接路径并读取该路径 ico 图标
-        icon = Image.open(icon_path + "\\" + target[0])
+        # 获取exe文件的图标
+        large, small = win32gui.ExtractIconEx(exe_path, 0)
+        win32gui.DestroyIcon(small[0])
+        # 创建一个设备上下文
+        hdc = win32ui.CreateDCFromHandle(win32gui.GetDC(0))
+        hbmp = win32ui.CreateBitmap()
+        hbmp.CreateCompatibleBitmap(
+            hdc,
+            int(40 * Store.scaling_width),
+            int(40 * Store.scaling_height)
+        )
+        # 在设备上下文中绘制图标
+        hdc = hdc.CreateCompatibleDC()
+        hdc.SelectObject(hbmp)
+        hdc.DrawIcon((0, 0), large[0])
+
+        # 保存图标到本地文件
+        bmpinfo = hbmp.GetInfo()
+        bmpstr = hbmp.GetBitmapBits(True)
+        img = Image.frombuffer(
+            'RGB',
+            (
+                int(bmpinfo['bmWidth'] * Store.scaling_width),
+                int(bmpinfo['bmHeight'] * Store.scaling_height)
+            ),
+            bmpstr, 'raw', 'BGRX', 0, 1)
         # 将图片尺寸设置为 55 * 55
-        resized_image = icon.resize(
+        img = img.resize(
             (
                 int(55 * Store.scaling_width),
                 int(55 * Store.scaling_height)
             )
         )
-        # 保存图片
-        resized_image.save('./static/icon.png')
-        # 替换图片
+        img.save('./static/icon.png')
         image_file2.config(file='./static/icon.png')
+
     except:
-        # 如未能正确读取到ico图标，则显示默认图片
+        # 如未能正确读取到图标，则显示默认图片
         image_file2.config(file="./static/picture_temp.png")
 
 
@@ -226,7 +244,8 @@ def window_information_show_menu(event):
         num_threads = psutil.Process(process_id).num_threads()
         vars_dict.get('var_num_threads').set(num_threads)
         position_group_show_menu(hwnd, point)
-        picture(p_bin)
+        # 替换图标
+        get_exe_icon(p_bin)
         # 添加到globals全局变量模块
         Store.hwnd, Store.p_bin, Store.process_id, Store.point = hwnd, p_bin, process_id, point
     except:

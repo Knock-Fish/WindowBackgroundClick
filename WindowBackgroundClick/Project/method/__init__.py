@@ -9,7 +9,6 @@ import ttkbootstrap as ttk
 import tkinter as tk
 from tkinter import messagebox
 import keyboard
-from pykeyboard import PyKeyboard
 import re
 
 
@@ -54,6 +53,7 @@ def kill():
 def bin():
     # 把路径分割成 dirname 和 basename，返回一个元组
     pbin = os.path.split(Store.p_bin)[0]  # 获取元组下标为0的参数
+    print(pbin)
     os.startfile(str(pbin))  # 打开文件夹
 
 
