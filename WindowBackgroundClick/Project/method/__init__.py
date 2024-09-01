@@ -107,7 +107,7 @@ def get_interval():
         global interval
         Store.time_tip.place_forget()
         interval = float(Store.background_click_entry_var_time.get())
-        if interval == 0:
+        if interval == 0 or interval < 0:
             return Store.time_tip.place(
                 x=150 * Store.scaling_width,
                 y=110 * Store.scaling_height
