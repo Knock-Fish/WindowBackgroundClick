@@ -109,16 +109,16 @@ def window_information_module():
         53 * Store.scaling_height,
         outline="grey"
     )
-    image_file_key = Image.open("./static/key.png")
+    image_file_key = Image.open("./Project/static/key.png")
     resized_image_key = image_file_key.resize(
         (
             int(40 * Store.scaling_width),
             int(40 * Store.scaling_height)
         )
     )
-    # image_file_key = ttk.PhotoImage(file='./static/key.png')  # 读取图片
-    resized_image_key.save('./static/key_temp.png')
-    image_file = ttk.PhotoImage(file='./static/key_temp.png')
+    # image_file_key = ttk.PhotoImage(file='../Project/static/key.png')  # 读取图片
+    resized_image_key.save('./Project/static/key_temp.png')
+    image_file = ttk.PhotoImage(file='./Project/static/key_temp.png')
     canvas.create_image(
         29 * Store.scaling_width,
         29 * Store.scaling_height,
@@ -137,16 +137,16 @@ def window_information_module():
         width=80 * Store.scaling_width,
         borderwidth=-3,
     )
-    # image_file2 = ttk.PhotoImage(file='./static/picture.png')  # 读取图片
-    image_file2_picture = Image.open("./static/picture.png")
+    # image_file2 = ttk.PhotoImage(file='../Project/static/picture.png')  # 读取图片
+    image_file2_picture = Image.open("./Project/static/picture.png")
     resized_image_picture = image_file2_picture.resize(
         (
             int(55 * Store.scaling_width),
             int(55 * Store.scaling_height)
         )
     )
-    resized_image_picture.save("./static/picture_temp.png")
-    image_file2 = ttk.PhotoImage(file="./static/picture_temp.png")
+    resized_image_picture.save("./Project/static/picture_temp.png")
+    image_file2 = ttk.PhotoImage(file="./Project/static/picture_temp.png")
     canvas2.create_image(
         37 * Store.scaling_width,
         37 * Store.scaling_height,
@@ -201,12 +201,12 @@ def get_exe_icon(exe_path):
                 int(55 * Store.scaling_height)
             )
         )
-        img.save('./static/icon.png')
-        image_file2.config(file='./static/icon.png')
+        img.save('./Project/static/icon.png')
+        image_file2.config(file='./Project/static/icon.png')
 
     except:
         # 如未能正确读取到图标，则显示默认图片
-        image_file2.config(file="./static/picture_temp.png")
+        image_file2.config(file="./Project/static/picture_temp.png")
 
 
 def window_information_show_menu(event):
