@@ -8,11 +8,11 @@ import win32print
 
 def get_real_resolution():
     # 获取真实的分辨率
-    hDC = win32gui.GetDC(0)
+    hdc = win32gui.GetDC(0)
     # 横向分辨率
-    w = win32print.GetDeviceCaps(hDC, win32con.DESKTOPHORZRES)
+    w = win32print.GetDeviceCaps(hdc, win32con.DESKTOPHORZRES)
     # 纵向分辨率
-    h = win32print.GetDeviceCaps(hDC, win32con.DESKTOPVERTRES)
+    h = win32print.GetDeviceCaps(hdc, win32con.DESKTOPVERTRES)
     return w, h
 
 
