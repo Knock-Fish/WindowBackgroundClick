@@ -109,21 +109,21 @@ def get_interval():
         interval = float(Store.background_click_entry_var_time.get())
         if interval == 0 or interval < 0:
             return Store.time_tip.place(
-                x=150 * Store.scaling_width,
-                y=110 * Store.scaling_height
+                x=120 * Store.screen_scale_rate,
+                y=88 * Store.screen_scale_rate
             )
         Store.flag = True
         # 切换停止按钮
         Store.background_click_labelframe_get_button_value.get("stop").place(
-            x=20 * Store.scaling_width,
-            y=200 * Store.scaling_height
+            x=16 * Store.screen_scale_rate,
+            y=160 * Store.screen_scale_rate
         )
         Store.background_click_labelframe_get_button_value.get("start").place_forget()
     except:
         # 错误提示
         Store.time_tip.place(
-            x=150 * Store.scaling_width,
-            y=110 * Store.scaling_height
+            x=120 * Store.screen_scale_rate,
+            y=88 * Store.screen_scale_rate
         )
 
 
@@ -143,8 +143,8 @@ def cycle_click():
         get_interval()
     else:
         Store.hwnd_tip.place(
-            x=120 * Store.scaling_width,
-            y=205 * Store.scaling_height
+            x=96 * Store.screen_scale_rate,
+            y=164 * Store.screen_scale_rate
         )
 
 
@@ -153,8 +153,8 @@ def clear_cycle_click():
     Store.flag = False
     # 切换启动按钮
     Store.background_click_labelframe_get_button_value.get("start").place(
-        x=20 * Store.scaling_width,
-        y=200 * Store.scaling_height
+        x=16 * Store.screen_scale_rate,
+        y=160 * Store.screen_scale_rate
     )
     Store.background_click_labelframe_get_button_value.get("stop").place_forget()
 

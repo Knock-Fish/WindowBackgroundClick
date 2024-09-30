@@ -13,11 +13,8 @@ class Store:
     time_tip = None  # 错误的时间间隔提示
     hwnd_tip = None  # 未获取窗口错误提示
     background_click_labelframe_get_button_value = None  # 按钮指针
-    # 缩放比例
-    scaling_width = None
-    scaling_height = None
-    on_release_callback_flag = False    # 防抖
-
+    screen_scale_rate = None    # # 缩放比例
+    on_release_callback_flag = False    # 启动（停止）按钮防抖
     @staticmethod
     def get(value):
         return value

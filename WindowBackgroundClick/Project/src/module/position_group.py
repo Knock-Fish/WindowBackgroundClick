@@ -5,49 +5,49 @@ import win32gui
 
 def position_group_module():
     # 坐标框架组件
-    position_group = Store.root.set_init_labelframe("坐标", 225, 445, 400, 180)  # 设置坐标框架组件大小和位置
+    position_group = Store.root.set_init_labelframe("坐标", 180, 356, 320, 144)  # 设置坐标框架组件大小和位置
     position_group_labelframe = GUI(position_group)  # 实例化对象
     # 配置坐标组件标签
     position_group_labelframe.set_label(
         {
-            "窗口左上": [15, 10],
-            "窗口右上": [205, 10],
-            "窗口左下": [15, 60],
-            "窗口右下": [205, 60],
-            "坐标 x, y": [15, 110]
+            "窗口左上": [12, 8],
+            "窗口右上": [164, 8],
+            "窗口左下": [12, 48],
+            "窗口右下": [164, 48],
+            "坐标 x, y": [12, 88]
         }
     )
     # 配置坐标组件文本框
     position_group_labelframe.set_entry(
         [
             {  # 窗口左上
-                'width': 100,
-                'x': 90,
-                'y': 5,
+                'width': 80,
+                'x': 72,
+                'y': 4,
                 'var': 'var_top'
             },
             {  # 窗口右上
-                'width': 100,
-                'x': 280,
-                'y': 5,
+                'width': 80,
+                'x': 224,
+                'y': 4,
                 'var': 'var_right'
             },
             {  # 窗口左下
-                'width': 100,
-                'x': 90,
-                'y': 55,
+                'width': 80,
+                'x': 72,
+                'y': 44,
                 'var': 'var_left'
             },
             {  # 窗口右下
-                'width': 100,
-                'x': 280,
-                'y': 55,
+                'width': 80,
+                'x': 224,
+                'y': 44,
                 'var': 'var_bottom'
             },
             {  # 坐标x,y
-                'width': 290,
-                'x': 90,
-                'y': 105,
+                'width': 232,
+                'x': 72,
+                'y': 84,
                 'var': 'var_point'
             }
         ]

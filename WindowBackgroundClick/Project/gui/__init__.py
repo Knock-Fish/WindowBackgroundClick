@@ -1,44 +1,28 @@
-import ttkbootstrap as ttk
+import win32print
+from win32api import GetSystemMetrics
 from Project.method import *
-from Project.src.globals import Store
-from functools import partial
-import threading
+import math
 
 
 class GUI:
     def __init__(self, init_window_name):
         # 根窗口
         self.init_window_name = init_window_name
-        # 获取屏幕的大小
-        self.screen_width = self.init_window_name.winfo_screenwidth()
-        self.screen_height = self.init_window_name.winfo_screenheight()
-        self.if_screen_size()
         # 存放文本框的数据
         self.local_vars = {}
         # 获取用户输入文本框的值
         self.entry_value = {}
         # 存放按钮的指针
         self.button_value = {}
-        # 缩放比例
-        self.scaling_width = 0
-        self.scaling_height = 0
-        self.if_screen_size()
-
-    # 不同分辨率下布局兼容处理
-    def if_screen_size(self):
-        # 新分辨率 / 原始分辨率 = 缩放比例
-        self.scaling_width = self.screen_width / 1920
-        self.scaling_height = self.screen_height / 1080
-        # 将缩放比例保存到全局变量模块
-        Store.scaling_width = self.scaling_width
-        Store.scaling_height = self.scaling_height
+        # 从全局模块中获取屏幕的缩放比例
+        self.screen_scale_rate = Store.screen_scale_rate
 
     # 设置窗口
     def set_init_window(self, window_title, size, icon):
         self.init_window_name.title(window_title)  # 定义窗口标题
         # 窗口大小和位置参数
-        window_width, window_height = int(size[0] * self.scaling_width), int(size[1] * self.scaling_height)
-        # print(int(size[0] * self.scaling_width))
+        window_width, window_height = int(size[0] * self.screen_scale_rate), int(size[1] * self.screen_scale_rate)
+        print(int(size[0] * self.screen_scale_rate))
         # 定义窗口大小和窗口弹出时的默认展示位置
         self.init_window_name.geometry(
             "{}x{}+{}+{}".format(
@@ -83,8 +67,8 @@ class GUI:
                      "command=lambda f=str_fun: eval(f)"  # 触发事件的回调函数
                      ")".format(name))
                 exec("{}.place("  # 放置部件
-                     "x=x * self.scaling_width,"
-                     "y=y * self.scaling_height"
+                     "x=x * self.screen_scale_rate,"
+                     "y=y * self.screen_scale_rate"
                      ")".format(name))
                 # 将按钮指针保存到 self.button_value 元组中
                 self.button_value[name] = eval(name)
@@ -95,8 +79,8 @@ class GUI:
                     bootstyle=btn_style,  # 按钮样式
                     command=lambda f=str_fun: eval(f)  # 触发事件的回调函数
                 ).place(  # 放置部件
-                    x=x * self.scaling_width,
-                    y=y * self.scaling_height
+                    x=x * self.screen_scale_rate,
+                    y=y * self.screen_scale_rate
                 )
 
     # 配置文本框，用来放置数据
@@ -106,6 +90,7 @@ class GUI:
             state = item.get('state') if 'state' in item != False else "readonly"
             # 设置文本框的样式，默认为 primary
             entry_style = item.get('entry_style') if 'entry_style' in item != False else "primary"
+            height = item.get('height') if 'height' in item != False else 28 * self.screen_scale_rate
             # 如设置了var参数，则会对文本框指定的值名进行赋值 ttk.StringVar()
             if 'var' in item:
                 temp = item.get("var")
@@ -123,11 +108,15 @@ class GUI:
                      "state=state"  # 文本框属性
                      ")".format(item.get("var")))
                 exec("entry_{}.place("  # 放置部件
-                     "x=item.get('x') * self.scaling_width,"
-                     "y=item.get('y') * self.scaling_height,"
+                     "x=item.get('x') * self.screen_scale_rate,"
+                     "y=item.get('y') * self.screen_scale_rate,"
                      "width={},"
-                     "height=35 * self.scaling_height"
-                     ")".format(item.get("var"), item.get('width') * self.scaling_width))
+                     "height=height"
+                     ")".format(
+                    item.get("var"),
+                    item.get('width') * self.screen_scale_rate
+                ))
+
                 # 文本框变量名 以键值对 保存到 entry_value 中
                 self.entry_value["entry_{}".format(item.get("var"))] = eval("entry_{}".format(item.get("var")))
             else:
@@ -137,26 +126,35 @@ class GUI:
                     textvariable=var,  # var初始化文本框的内容
                     state=state  # 文本框属性
                 ).place(
-                    x=item.get('x') * self.scaling_width,
-                    y=item.get('y') * self.scaling_height,
-                    width=item.get('width') * self.scaling_width,  # 文本框的宽度
+                    x=item.get('x') * self.screen_scale_rate,
+                    y=item.get('y') * self.screen_scale_rate,
+                    width=item.get('width') * self.screen_scale_rate,  # 文本框的宽度
+                    height=height,  # 文本框的高度
                 )
 
     # 程序添加标签，用来标注
     def set_label(self, create_label_component):
-        for item in create_label_component:  # 遍历字典
+        for item in create_label_component:  # 遍历数组
             x, y = create_label_component.get(item)[0:2]  # x,y 的值
             if len(create_label_component.get(item)) == 3:  # 判断列表中是否有 样式 参数
                 label_style = create_label_component.get(item)[2]
             else:
                 label_style = "primary"  # 如没有指定样式，则默认为 primary
+            # 根据缩放比例调整文本大小
+            if self.screen_scale_rate == 1.0 or self.screen_scale_rate == 1.5 or self.screen_scale_rate == 1.75:
+                size = 1.28
+            elif self.screen_scale_rate == 1.25:
+                size = 1.25
+            else:
+                size = 1.28
             ttk.Label(
                 self.init_window_name,  # 添加到指定窗口
+                font=('微软雅黑', math.ceil(size * 7)),
                 text=item,  # 部件名称
                 bootstyle=label_style  # 部件样式
             ).place(  # 放置部件
-                x=x * self.scaling_width,
-                y=y * self.scaling_height
+                x=x * self.screen_scale_rate,
+                y=y * self.screen_scale_rate
             )
 
     # 单选框
@@ -178,8 +176,8 @@ class GUI:
                 command=lambda: callback('{}'.format(var.get())),  # 触发事件的回调函数
                 bootstyle=radio_button_style  # 单选框的样式
             ).place(  # 放置部件
-                x=x * self.scaling_width,
-                y=y * self.scaling_height
+                x=x * self.screen_scale_rate,
+                y=y * self.screen_scale_rate
             )
 
     # 标签框架
@@ -192,10 +190,10 @@ class GUI:
         l_frame.place(
             # 框架位置和大小
             anchor=position,  # 默认为 center
-            x=x * self.scaling_width,
-            y=y * self.scaling_height,
-            width=width * self.scaling_width,
-            height=height * self.scaling_height
+            x=x * self.screen_scale_rate,
+            y=y * self.screen_scale_rate,
+            width=width * self.screen_scale_rate,
+            height=height * self.screen_scale_rate
         )
         return l_frame
 

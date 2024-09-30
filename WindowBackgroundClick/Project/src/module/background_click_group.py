@@ -10,17 +10,16 @@ import ttkbootstrap as ttk
 def background_click_group_module():
     global background_click_group
     # 后台点击框架组件
-    background_click_group = Store.root.set_init_labelframe("后台点击", 825, 271, 310, 525)  # 设置后台点击框架组件大小和位置
+    background_click_group = Store.root.set_init_labelframe("后台点击", 660, 216, 248, 420)  # 设置后台点击框架组件大小和位置
     background_click_labelframe = GUI(background_click_group)  # 实例化对象
     Store.background_click_group = background_click_group
     # 配置标签
     background_click_labelframe.set_label(
         {
-            "点击类型": [20, 30],
-            "每次点击间隔时间": [20, 80],
-            "秒": [260, 80],
-            "启动和停止和热键": [20, 140],
-            # "请输入正确的值": [150, 110, "danger"],
+            "点击类型": [16, 24],
+            "每次点击间隔时间": [16, 64],
+            "秒": [208, 64],
+            "启动和停止和热键": [16, 112]
         }
     )
 
@@ -28,16 +27,16 @@ def background_click_group_module():
     background_click_labelframe.set_entry(
         [
             {  # 每次点击间隔时间
-                'width': 100,
-                'x': 155,
-                'y': 75,
+                'width': 80,
+                'x': 124,
+                'y': 60,
                 'var': 'var_time',
                 'state': None
             },
             {  # 启动和停止和热键
-                'width': 100,
-                'x': 155,
-                'y': 135,
+                'width': 80,
+                'x': 124,
+                'y': 108,
                 'var': 'var_hotkey',
                 # 'state': None
             }
@@ -50,14 +49,14 @@ def background_click_group_module():
         var,
         {
             "鼠标左键": {
-                'x': 100,
-                'y': 32,
+                'x': 80,
+                'y': 25,
                 'value': 1,
                 'callback': 'radiobutton_value',
             },
             "鼠标右键": {
-                'x': 200,
-                'y': 32,
+                'x': 160,
+                'y': 25,
                 'value': 2,
                 'callback': 'radiobutton_value'
             },
@@ -92,14 +91,14 @@ def background_click_group_module():
         {
             '启动脚本': {
                 'name': 'start',
-                'x': 20,
-                'y': 200,
+                'x': 16,
+                'y': 160,
                 'callback': 'cycle_click',
             },
             '停止脚本': {
                 'name': 'stop',
-                'x': 20,
-                'y': 200,
+                'x': 16,
+                'y': 160,
                 'btn_style': 'danger',
                 'callback': 'clear_cycle_click',
             }

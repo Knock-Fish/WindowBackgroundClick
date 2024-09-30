@@ -1,5 +1,4 @@
 import win32ui
-
 from Project.gui import GUI
 from Project.src.globals import Store
 import win32api
@@ -14,20 +13,20 @@ from PIL import Image
 
 def window_information_module():
     # 窗口信息框架组件
-    window_information = Store.root.set_init_labelframe("窗口信息", 340, 180, 630, 340)  # 设置窗口信息框架组件大小和位置
+    window_information = Store.root.set_init_labelframe("窗口信息", 272, 144, 504, 272)  # 设置窗口信息框架组件大小和位置
     window_information_labelframe = GUI(window_information)  # 实例化对象
     # 配置窗口标签
     window_information_labelframe.set_label(
         {
-            "窗口句柄": [15, 15],
-            "窗口类名": [200, 15],
-            "窗口标题": [15, 65],
-            "线程ID": [15, 115],
-            "进程ID": [210, 115],
-            "进程名称": [15, 165],
-            "进程路径": [15, 215],
-            "CPU用量": [15, 265],
-            "线程数": [413, 265]
+            "窗口句柄": [12, 12],
+            "窗口类名": [160, 12],
+            "窗口标题": [12, 52],
+            "线程ID": [12, 92],
+            "进程ID": [168, 92],
+            "进程名称": [12, 132],
+            "进程路径": [12, 172],
+            "CPU用量": [12, 212],
+            "线程数": [330, 212]
         }
     )
 
@@ -35,57 +34,57 @@ def window_information_module():
     window_information_labelframe.set_entry(
         [
             {  # 窗口句柄
-                'width': 100,
-                'x': 90,
-                'y': 10,
+                'width': 80,
+                'x': 72,
+                'y': 8,
                 'var': "var_hwnd"
             },
             {  # 窗口类名
-                'width': 300,
-                'x': 275,
-                'y': 10,
+                'width': 240,
+                'x': 220,
+                'y': 8,
                 'var': 'var_clsname'
             },
             {  # 窗口标题
-                'width': 485,
-                'x': 90,
-                'y': 60,
+                'width': 388,
+                'x': 72,
+                'y': 48,
                 'var': 'var_title'
             },
             {  # 线程ID
-                'width': 100,
-                'x': 90,
-                'y': 110,
+                'width': 80,
+                'x': 72,
+                'y': 88,
                 'var': 'var_thread_id'
             },
             {  # 进程ID
-                'width': 115,
-                'x': 275,
-                'y': 110,
+                'width': 92,
+                'x': 220,
+                'y': 88,
                 'var': 'var_process_id'
             },
             {  # 进程名称
-                'width': 300,
-                'x': 90,
-                'y': 160,
+                'width': 240,
+                'x': 72,
+                'y': 128,
                 'var': 'var_process'
             },
             {  # 进程路径
-                'width': 485,
-                'x': 90,
-                'y': 210,
+                'width': 388,
+                'x': 72,
+                'y': 168,
                 'var': 'var_p_bin'
             },
             {  # CPU用量
-                'width': 305,
-                'x': 90,
-                'y': 260,
+                'width': 244,
+                'x': 72,
+                'y': 208,
                 'var': 'var_mem_percent'
             },
             {  # 线程数
-                'width': 100,
-                'x': 475,
-                'y': 260,
+                'width': 80,
+                'x': 380,
+                'y': 208,
                 'var': 'var_num_threads'
             }
         ]
@@ -97,72 +96,72 @@ def window_information_module():
     # 创建画布
     canvas = ttk.Canvas(
         window_information,
-        height=60 * Store.scaling_height,
-        width=60 * Store.scaling_width,
+        height=48.5 * Store.screen_scale_rate,
+        width=48.5 * Store.screen_scale_rate,
         borderwidth=-3,
         cursor="target"
     )
     canvas.create_rectangle(
-        2 * Store.scaling_width,
-        2 * Store.scaling_height,
-        53 * Store.scaling_width,
-        53 * Store.scaling_height,
+        2 * Store.screen_scale_rate,
+        2 * Store.screen_scale_rate,
+        42 * Store.screen_scale_rate,
+        42 * Store.screen_scale_rate,
         outline="grey"
     )
     image_file_key = Image.open("./Project/static/key.png")
     resized_image_key = image_file_key.resize(
         (
-            int(40 * Store.scaling_width),
-            int(40 * Store.scaling_height)
+            int(32 * Store.screen_scale_rate),
+            int(32 * Store.screen_scale_rate)
         )
     )
     # image_file_key = ttk.PhotoImage(file='../Project/static/key.png')  # 读取图片
     resized_image_key.save('./Project/static/key_temp.png')
     image_file = ttk.PhotoImage(file='./Project/static/key_temp.png')
     canvas.create_image(
-        29 * Store.scaling_width,
-        29 * Store.scaling_height,
+        23 * Store.screen_scale_rate,
+        23 * Store.screen_scale_rate,
         anchor='center',
         image=image_file
     )  # 将图片显示在画布上
     canvas.place(
-        x=510 * Store.scaling_width,
-        y=125 * Store.scaling_height
+        x=408 * Store.screen_scale_rate,
+        y=100 * Store.screen_scale_rate
     )  # 放置画布
     canvas.bind("<B1-Motion>", window_information_show_menu)  # 绑定事件
 
     canvas2 = ttk.Canvas(
         window_information,
-        height=80 * Store.scaling_height,
-        width=80 * Store.scaling_width,
+        height=65 * Store.screen_scale_rate,
+        width=65 * Store.screen_scale_rate,
         borderwidth=-3,
     )
     # image_file2 = ttk.PhotoImage(file='../Project/static/picture.png')  # 读取图片
     image_file2_picture = Image.open("./Project/static/picture.png")
     resized_image_picture = image_file2_picture.resize(
         (
-            int(55 * Store.scaling_width),
-            int(55 * Store.scaling_height)
+            int(44 * Store.screen_scale_rate),
+            int(44 * Store.screen_scale_rate)
         )
     )
     resized_image_picture.save("./Project/static/picture_temp.png")
     image_file2 = ttk.PhotoImage(file="./Project/static/picture_temp.png")
     canvas2.create_image(
-        37 * Store.scaling_width,
-        37 * Store.scaling_height,
+        29 * Store.screen_scale_rate,
+        29 * Store.screen_scale_rate,
         anchor='center',
         image=image_file2
     )  # 将图片显示在画布上
     canvas2.create_rectangle(
-        2 * Store.scaling_width,
-        2 * Store.scaling_height,
-        73 * Store.scaling_width,
-        73 * Store.scaling_height,
+        2 * Store.screen_scale_rate,
+        2 * Store.screen_scale_rate,
+        55 * Store.screen_scale_rate,
+        55 * Store.screen_scale_rate,
         outline="grey"
     )
     canvas2.place(
-        x=415 * Store.scaling_width,
-        y=115 * Store.scaling_height
+        x=332 * Store.screen_scale_rate,
+        y=92 * Store.screen_scale_rate
     )  # 放置画布
 
 
@@ -176,8 +175,8 @@ def get_exe_icon(exe_path):
         hbmp = win32ui.CreateBitmap()
         hbmp.CreateCompatibleBitmap(
             hdc,
-            int(40 * Store.scaling_width),
-            int(40 * Store.scaling_height)
+            int(32 * Store.screen_scale_rate),
+            int(32 * Store.screen_scale_rate)
         )
         # 在设备上下文中绘制图标
         hdc = hdc.CreateCompatibleDC()
@@ -190,15 +189,15 @@ def get_exe_icon(exe_path):
         img = Image.frombuffer(
             'RGB',
             (
-                int(bmpinfo['bmWidth'] * Store.scaling_width),
-                int(bmpinfo['bmHeight'] * Store.scaling_height)
+                int(bmpinfo['bmWidth'] * Store.screen_scale_rate),
+                int(bmpinfo['bmHeight'] * Store.screen_scale_rate)
             ),
             bmpstr, 'raw', 'BGRX', 0, 1)
-        # 将图片尺寸设置为 55 * 55
+        # 将图片尺寸设置为 55 / 55
         img = img.resize(
             (
-                int(55 * Store.scaling_width),
-                int(55 * Store.scaling_height)
+                int(44 * Store.screen_scale_rate),
+                int(44 * Store.screen_scale_rate)
             )
         )
         img.save('./Project/static/icon.png')

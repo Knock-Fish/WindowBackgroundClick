@@ -14,7 +14,7 @@ def gui_start():
     root = GUI(init_window)  # 实例化对象
     Store.root = root  # 将 root 添加到全局变量
     Store.init_window = init_window     # 根窗口添加到全局变量
-    root.set_init_window("获取窗口句柄-后台自动点击脚本", [1000, 560], "./Project/static/favicon.ico")  # 设置窗口大小和位置
+    root.set_init_window("获取窗口句柄-后台自动点击脚本", [800, 448], "./Project/static/favicon.ico")  # 设置窗口大小和位置
     background_click_group_module()  # 后台点击模块
     position_group_module()  # 坐标模块
     window_information_module()  # 窗口信息模块
